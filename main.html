@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .container {
+        display: grid;
+        grid-template-columns: 200px minmax(100px, 1fr) 300px;
+    }
+</style>
+
+<body>
+<div class="container">
+    <div>
+        <input type="number" id="myNumber" onkeyup="myNumberFunction()">
+    </div>
+    <div>
+        <select id="mySelect" onchange="mySelectFunction()">
+            <option value="isPrime">isPrime</option>
+            <option value="IsFibanacci">IsFibanacci</option>
+        </select>
+    </div>
+    <div id="third">
+        false
+    </div>
+</div>
+</body>
+<script>
+    var mySelectNow = "isPrime";
+    var myNumberNow = 0;
+
+    function isPrime(num) {
+        for (let i = 2; i < num; i++)
+            if (num % i === 0) return false;
+        return num > 1;
+    }
+
+    function isFibonacci(query) {
+        if(query === 0 || query === 1){
+            return true;
+        }
+        let prev = 1;
+        let count = 2;
+        let temp = 0;
+        while(count <= query){
+            if(prev + count === query){
+                return true;
+            }
+
+            temp = prev;
+            prev = count;
+            count += temp;
+        }
+
+        return false;
+    }
+
+    function calculate() {
+        if (document.getElementById("myNumber").value === "") {
+            document.getElementById("third").innerHTML = false;
+            return
+        }
+
+        if (mySelectNow === "isPrime") {
+            document.getElementById("third").innerHTML = isPrime(myNumberNow);
+        } else {
+            document.getElementById("third").innerHTML = isFibonacci(myNumberNow);
+        }
+    }
+
+    function mySelectFunction() {
+        mySelectNow = document.getElementById("mySelect").value;
+        calculate();
+    }
+
+    function myNumberFunction() {
+        if (document.getElementById("myNumber").value < 0) {
+            myNumberNow = 1;
+        } else {
+            myNumberNow = Math.round(document.getElementById("myNumber").value);
+        }
+        calculate();
+    }
+
+</script>
+
+</html>
